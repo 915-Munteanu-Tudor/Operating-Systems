@@ -1,0 +1,107 @@
+Ex1:
+#!/bin/bash
+
+lines=0
+files=0
+for FILE in `find $1 -type f`; do
+        if file $FILE | grep -q 'ASCII text'; then
+                echo $FILE
+                current=`cat $FILE | wc -l`
+                lines=$(($lines+$current))
+                files=$(($files+1))
+        fi
+
+done
+
+echo lines $lines
+echo files $files
+average=$(($lines/$files))
+echo average $average
+
+-------------------------------------------------------------------------------
+
+Ex2:
+#!/bin/bash
+
+for FILE in `find $1 -type f | grep -E ".{5,}"`;do
+        echo $FILE
+done
+
+-------------------------------------------------------------------------------
+
+Ex3:
+#!/bin/bash
+
+for FILE in `find . -type f`;do
+        if file $FILE | grep -q "ASCII text";then
+                if [[ `cat $FILE | wc -l` -lt 10 ]];then
+                        cat $FILE
+                else    head $FILE -n 5
+                        tail $FILE -n 5
+                fi
+        fi
+done
+
+-------------------------------------------------------------------------------
+
+Ex5:
+#!/bin/bash
+
+for FILE in $@;do
+        if [ -d $FILE ] ; then
+                echo $FILE is a directory
+                total=`tree $FILE | wc -l`
+                total=$(($total-2))
+                echo Files: $total
+        elif [ -f $FILE ]; then
+                echo $FILE is a file
+                echo Words: `wc -m $FILE`
+                echo Lines: `wc -l $FILE`
+        fi
+
+done
+
+-------------------------------------------------------------------------------
+
+Ex7:
+#!/bin/bash
+
+for FILE in $@;do
+        echo $FILE
+        cat $FILE | sort | uniq -c | sort | tail -n 1
+        echo "----------------------"
+done
+
+-------------------------------------------------------------------------------
+
+Ex8:
+#!/bin/bash
+
+for FILE in `find $1`;do
+                if [ -f $FILE ];then
+                        if [[ ${#FILE} -lt 8 ]];then
+                                echo $FILE
+                                cat $FILE | head -n 10
+                        fi
+                fi
+
+done
+
+-------------------------------------------------------------------------------
+
+Ex9:
+#!/bin/bash
+
+for FILE in `find $1 -type f`;do
+        counting=`ls -l $FILE | grep -E "^.rwxr-xr-x" | wc -l`
+        if [[ $counting -ne 0 ]];then
+        echo Are you sure you want to change $FILE"'s" permissions to 744?yes/no
+        read choice
+        if [ $choice == "yes" ];then
+                chmod 744 $FILE
+        fi
+        fi
+done
+
+
+                                               

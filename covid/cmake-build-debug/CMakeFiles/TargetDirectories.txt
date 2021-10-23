@@ -1,0 +1,3 @@
+T:/materiale/covid/cmake-build-debug/CMakeFiles/covid.dir
+T:/materiale/covid/cmake-build-debug/CMakeFiles/edit_cache.dir
+T:/materiale/covid/cmake-build-debug/CMakeFiles/rebuild_cache.dir

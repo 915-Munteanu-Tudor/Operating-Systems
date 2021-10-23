@@ -1,0 +1,139 @@
+Ex1
+
+#!/bin/bash
+
+dir1=$1
+shift 1
+dir2=$2
+shift 1
+dir3=$3
+shift 1
+for F in $@;do
+        checks=0
+        line_count=`grep -E '^([^ ]* ){4}[^ ]' $F | wc -l`
+        line_count_2=`grep -E -v '^([^ ]* ){4}[^ ]' $F| wc -l`
+        echo 0
+        if [ $line_count -gt 10 ];then
+                `cp $F dir1/$F`
+                checks=1
+        fi
+        echo 1
+        if [ $line_count_2 -gt 10 ]; then
+               `cp $F dir2/$F`
+               checks=1
+        fi
+        echo 2
+        if [ $checks -eq 0 ];then
+                `mv $F dir3/$F1`
+        fi
+done
+
+
+
+
+
+Ex4
+
+#!/bin/bash
+
+awk '{for (i=1;i<=NF;i++) print $i}' $1 | sort >> sorted_$1
+
+
+
+
+
+Ex5
+
+#!/bin/bash
+
+NR=$1
+shift 1
+count=0
+while [ $count -lt $NR ];do
+        read NUMBER
+        count=$((count+1))
+        INDEX=2;
+        while [ $INDEX -lt $NUMBER ];do
+                if [ $((NUMBER%INDEX)) -eq 0 ];then
+                        echo $NUMBER is not prime
+                        exit 1
+                else
+                        INDEX=$((INDEX+1))
+                fi
+        done
+done
+
+
+
+Ex6
+
+#!/bin/bash
+
+sorted=0
+array=("$@")
+number=$(($#-1))
+while [ $sorted -eq 0 ];do
+        sorted=1
+        index=0
+        while [ $index -lt $number ];do
+                fol_pos=$(($index+1))
+                if [ ${array[$index]} -gt ${array[$fol_pos]} ];then
+                     sorted=0
+                     auxiliary=${array[$index]}
+                     array[$index]=${array[$fol_pos]}
+                     array[$fol_pos]=$auxiliary
+                fi
+                index=$((index+1))
+        done
+done
+
+echo ${array[@]}
+
+
+
+
+Ex7
+
+#!/bin/bash
+
+if [ $2 -eq 1 ];then
+        index=1
+        while [ $index -le $1 ];do
+                string=""
+                spaces=$(($1 - index))
+                index2=0
+                while [ $index2 -lt $spaces ];do
+                        string+=" "
+                        index2=$((index2+1))
+                done
+                nonspaces=$index
+                index2=0
+                while [ $index2 -lt $nonspaces ];do
+                        string+="#"
+                        index2=$((index2+1))
+                done
+                echo "$string"
+                index=$((index+1))
+        done
+elif [ $2 -eq 2 ];then
+        index=1
+        while [ $index -le $1 ];do
+                string=""
+                spaces=$(($1 - index))
+                index2=0
+                while [ $index2 -lt $spaces ];do
+                        string+=" "
+                        index2=$((index2+1))
+                done
+                nonspaces=$((2*index-1))
+                index2=0
+                while [ $index2 -lt $nonspaces ];do
+                        string+="#"
+                        index2=$((index2+1))
+                done
+                echo "$string"
+                index=$((index+1))
+        done
+else
+        echo Please make sure youre not dumb!
+fi
